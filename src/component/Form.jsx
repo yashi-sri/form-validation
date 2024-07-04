@@ -1,6 +1,6 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import Input from "../ui/Input";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -13,44 +13,36 @@ const validationSchema = Yup.object().shape({
     .required("Phone number is required"),
 });
 
+/**
+ * MyForm is a functional component that renders a form using Formik and Yup for form validation.
+ * It includes two input fields for email and phone number, and a submit button.
+ *
+ * @returns {JSX.Element} - A JSX element representing the form.
+ */
 const MyForm = () => {
   return (
+    // Formik component for handling form state and validation
     <Formik
+      // Initial form values
       initialValues={{ email: "", phoneNumber: "" }}
+      // Validation schema using Yup
       validationSchema={validationSchema}
+      // Submission handler
       onSubmit={(values, { setSubmitting }) => {
         console.log(values);
         setSubmitting(false);
       }}
     >
+      {/*  Render prop function to access form state and methods */}
       {({ isSubmitting }) => (
+        // Form element with custom styles
         <Form className="border border-slate-500 flex flex-col items-center justify-center max-w-lg gap-5 p-5 py-10 rounded-md min-w-96">
-          <div className="flex flex-col w-full max-w-xs">
-            <label htmlFor="email">Email</label>
-            <Field
-              type="email"
-              name="email"
-              className="border border-gray-400 rounded-md h-10 w-full pl-3 outline-none duration-300 focus:border-[2px] focus:border-slate-950"
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="text-red-600"
-            />
-          </div>
-          <div className="flex flex-col w-full max-w-xs">
-            <label htmlFor="phoneNumber">Phone Number</label>
-            <Field
-              type="text"
-              name="phoneNumber"
-              className="border border-gray-400 rounded-md h-10 w-full pl-3 outline-none duration-300 focus:border-[2px] focus:border-slate-950"
-            />
-            <ErrorMessage
-              name="phoneNumber"
-              component="div"
-              className="text-red-600"
-            />
-          </div>
+          {/* Input component for email field */}
+          <Input label="Email" type="email" name="email" />
+          {/* Input component for phone number field */}
+          <Input label="Phone Number" type="text" name="phoneNumber" />
+          {/* Submit button with custom styles and disabled state based on form
+          submission status */}
           <button
             type="submit"
             disabled={isSubmitting}
